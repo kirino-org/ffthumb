@@ -4,12 +4,13 @@ description = "Safe libffmpegthumbnailer wrapper"
 version = "0.1.0"
 edition = "2021"
 license = "WTFPL"
+
+homepage = "https://kirino.io"
+repository = "https://github.com/kirino-org/kirino"
 build = "build.rs"
 
 [features]
 bindgen = ["dep:bindgen"]
-
-[dependencies]
 
 [build-dependencies]
 bindgen = { version = "0.63.0", optional = true }
