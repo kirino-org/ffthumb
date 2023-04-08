@@ -1,12 +1,12 @@
 [package]
 name = "ffthumb"
 description = "Safe libffmpegthumbnailer wrapper"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "WTFPL"
 
 homepage = "https://kirino.io"
-repository = "https://github.com/kirino-org/kirino"
+repository = "https://github.com/kirino-org/ffthumb"
 build = "build.rs"
 
 [dependencies]
