@@ -4,12 +4,24 @@
 Safe ffmpegthumbnailer wrapper for Rust
 
 ```rust
+extern crate ffthumb;
+
+use std::{
+  fs::File,
+  io::{stdout, Write},
+};
+
+use ffthumb::Thumbnailer;
+
 fn main() {
-  let th = Thumbnailer::new();
-  th.set_size(256, 0);
-  th.generate_to_file("test.mkv", "out.png");
+  let mut th = Thumbnailer::builder().finalize();
+  File::create("thumbnail.png")
+    .unwrap()
+    .write(
+      th.generate("bad_apple.mkv", Some(25), None)
+        .unwrap()
+        .as_slice()
+    )
+    .unwrap();
 }
 ```
-
- > This is part of [the Kirino Media Server project](https://kirino.io).
-

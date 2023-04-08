@@ -9,11 +9,11 @@ homepage = "https://kirino.io"
 repository = "https://github.com/kirino-org/kirino"
 build = "build.rs"
 
-[features]
-bindgen = ["dep:bindgen"]
+[dependencies]
+libc = "0.2.140"
 
 [build-dependencies]
-bindgen = { version = "0.63.0", optional = true }
+cc = "1.0.79"
 pkg-config = "0.3.26"
 
 [profile.release]
