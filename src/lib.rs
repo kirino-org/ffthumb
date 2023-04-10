@@ -6,7 +6,7 @@
 extern crate alloc;
 extern crate libc;
 
-use alloc::{string::String, vec::Vec};
+use alloc::{ffi::CString, vec::Vec};
 use core::{ptr::null_mut, slice};
 
 use libc::c_void;
@@ -104,23 +104,24 @@ impl Thumbnailer {
   }
   /// Generate thumbnail of **`input`**
   // I decided to **NOT** have a dedicated struct for image data, since I'm not
-  // doing much with it. The allocation and destruction is-- of course-- handled
-  // manually, so could potentially be unsafe.
+  // doing much with it.
   pub fn generate(
     &mut self,
-    input: &str,
+    input_path: &str,
     time: Option<u8>,
     size: Option<u32>,
   ) -> Result<Vec<u8>, ()> {
-    let input = String::from(input);
     unsafe {
       let buf = ffw_thumbnailer_img_data_new();
 
       ffw_thumbnailer_set_time(self.ptr, time.unwrap_or(self.default_time) as i32);
       ffw_thumbnailer_set_size(self.ptr, size.unwrap_or(self.default_size) as i32);
 
-      let ret =
-        ffw_thumbnailer_generate(self.ptr, buf, input.as_bytes().as_ptr() as *const _);
+      // input_path contains an internal nul byte or otherwise cannot be turned into a
+      // CString
+      let input = CString::new(input_path).expect("input_path invalid");
+
+      let ret = ffw_thumbnailer_generate(self.ptr, buf, input.as_ptr() as *const _);
       if ret != 0 {
         return Err(());
       }
